@@ -1,0 +1,105 @@
+[gd_scene load_steps=8 format=3 uid="uid://djc6j0gw8e1rf"]
+
+[ext_resource type="Script" path="res://point_controller.gd" id="1_7wmt2"]
+[ext_resource type="Script" path="res://point.gd" id="2_3k8p6"]
+[ext_resource type="Texture2D" uid="uid://b7bymfba1xloi" path="res://icon.svg" id="3_ehgbe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvuoa"]
+size = Vector2(912, 612.5)
+
+[sub_resource type="Animation" id="Animation_6em2s"]
+resource_name = "expandIn"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 0.257813, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 0.265625, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_smv5b"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.257813, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.265625, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lwoyj"]
+_data = {
+"RESET": SubResource("Animation_smv5b"),
+"expandIn": SubResource("Animation_6em2s")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 22.0
+offset_top = 15.0
+offset_right = 933.0
+offset_bottom = 626.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Generation Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Generation Area"]
+position = Vector2(479, 320.75)
+shape = SubResource("RectangleShape2D_xvuoa")
+
+[node name="PointController" type="Node2D" parent="." node_paths=PackedStringArray("generationArea")]
+script = ExtResource("1_7wmt2")
+generationArea = NodePath("../Generation Area")
+
+[node name="Point" type="Node2D" parent="."]
+script = ExtResource("2_3k8p6")
+
+[node name="Icon" type="Sprite2D" parent="Point"]
+position = Vector2(175.5, 118)
+scale = Vector2(0.257813, 0.265625)
+texture = ExtResource("3_ehgbe")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Point/Icon"]
+libraries = {
+"": SubResource("AnimationLibrary_lwoyj")
+}

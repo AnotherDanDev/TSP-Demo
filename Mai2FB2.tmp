@@ -1,0 +1,238 @@
+[gd_scene load_steps=8 format=3 uid="uid://djc6j0gw8e1rf"]
+
+[ext_resource type="Script" path="res://point_controller.gd" id="1_7wmt2"]
+[ext_resource type="Script" path="res://gui.gd" id="1_oqxew"]
+[ext_resource type="PackedScene" uid="uid://dm53vkklsesh" path="res://Point.tscn" id="2_aiqdu"]
+[ext_resource type="Script" path="res://NearestNeighbor.gd" id="2_im85e"]
+[ext_resource type="Script" path="res://optimize.gd" id="3_nfbi3"]
+[ext_resource type="Script" path="res://Christofides.gd" id="4_bhted"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvuoa"]
+size = Vector2(912, 612.5)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GUI" type="Control" parent="." node_paths=PackedStringArray("pointController", "nearestNeighbor", "christofides", "optimize")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 22.0
+offset_top = 15.0
+offset_right = 933.0
+offset_bottom = 626.0
+script = ExtResource("1_oqxew")
+pointController = NodePath("../PointController")
+nearestNeighbor = NodePath("../Nearest neighbor")
+christofides = NodePath("../Christofides")
+optimize = NodePath("../Optimize")
+
+[node name="Panel" type="Panel" parent="GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel2" type="Panel" parent="GUI"]
+layout_mode = 0
+offset_left = 929.0
+offset_top = 1.0
+offset_right = 1113.0
+offset_bottom = 287.0
+
+[node name="NumberOfPoints" type="Control" parent="GUI/Panel2"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Point" type="HSlider" parent="GUI/Panel2/NumberOfPoints"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 60.0
+offset_right = 181.0
+offset_bottom = 79.0
+min_value = 2.0
+max_value = 25.0
+value = 10.0
+
+[node name="PointNumber" type="Label" parent="GUI/Panel2/NumberOfPoints"]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 38.0
+offset_right = 187.0
+offset_bottom = 61.0
+text = "10"
+
+[node name="Label2" type="Label" parent="GUI/Panel2/NumberOfPoints"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 10.0
+offset_right = 148.0
+offset_bottom = 33.0
+text = "Number of Points:"
+
+[node name="MinDistance" type="Control" parent="GUI/Panel2"]
+anchors_preset = 0
+offset_top = 67.0
+offset_right = 40.0
+offset_bottom = 107.0
+
+[node name="MinDistance" type="HSlider" parent="GUI/Panel2/MinDistance"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 60.0
+offset_right = 181.0
+offset_bottom = 79.0
+min_value = 10.0
+max_value = 200.0
+value = 100.0
+
+[node name="MinDistanceLbl" type="Label" parent="GUI/Panel2/MinDistance"]
+layout_mode = 0
+offset_left = 147.0
+offset_top = 38.0
+offset_right = 187.0
+offset_bottom = 61.0
+text = "100"
+
+[node name="Label2" type="Label" parent="GUI/Panel2/MinDistance"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 10.0
+offset_right = 148.0
+offset_bottom = 33.0
+text = "Minimum Distance:"
+
+[node name="NearestNeighbor" type="Button" parent="GUI/Panel2"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 176.0
+offset_right = 166.0
+offset_bottom = 207.0
+text = "Nearest Neighbor"
+
+[node name="Calculate" type="Button" parent="GUI/Panel2"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 212.0
+offset_right = 152.0
+offset_bottom = 243.0
+text = "Christofides"
+
+[node name="Optimize" type="Button" parent="GUI/Panel2"]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 248.0
+offset_right = 152.0
+offset_bottom = 279.0
+text = "2-Opt In"
+
+[node name="PathLabels" type="Panel" parent="GUI"]
+layout_mode = 0
+offset_left = 929.0
+offset_top = 308.0
+offset_right = 1113.0
+offset_bottom = 528.0
+
+[node name="Label" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 9.0
+offset_right = 77.0
+offset_bottom = 32.0
+text = "Nearest:"
+
+[node name="nearestPath" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 31.0
+offset_right = 102.0
+offset_bottom = 54.0
+text = "0"
+
+[node name="Label2" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 54.0
+offset_right = 77.0
+offset_bottom = 77.0
+text = "Christofides:
+"
+
+[node name="christofidesPath" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 76.0
+offset_right = 102.0
+offset_bottom = 99.0
+text = "0"
+
+[node name="Label3" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 98.0
+offset_right = 77.0
+offset_bottom = 121.0
+text = "Optimized:"
+
+[node name="optimizedPath" type="Label" parent="GUI/PathLabels"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 120.0
+offset_right = 102.0
+offset_bottom = 143.0
+text = "0"
+
+[node name="Generation Area" type="Area2D" parent="."]
+position = Vector2(479, 323)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Generation Area"]
+shape = SubResource("RectangleShape2D_xvuoa")
+metadata/_edit_lock_ = true
+
+[node name="Nearest neighbor" type="Node2D" parent="." node_paths=PackedStringArray("pointController", "gui")]
+script = ExtResource("2_im85e")
+pointController = NodePath("../PointController")
+gui = NodePath("../GUI")
+
+[node name="Line2D" type="Line2D" parent="Nearest neighbor"]
+default_color = Color(0.898823, 0, 0.0889909, 1)
+
+[node name="Christofides" type="Node2D" parent="." node_paths=PackedStringArray("pointController", "nearestNeighbor", "gui")]
+script = ExtResource("4_bhted")
+pointController = NodePath("../PointController")
+nearestNeighbor = NodePath("../Nearest neighbor")
+gui = NodePath("../GUI")
+
+[node name="Line2D" type="Line2D" parent="Christofides"]
+default_color = Color(0.0543558, 0.176178, 1, 1)
+
+[node name="Optimize" type="Node2D" parent="." node_paths=PackedStringArray("pointController", "gui")]
+script = ExtResource("3_nfbi3")
+pointController = NodePath("../PointController")
+gui = NodePath("../GUI")
+
+[node name="Line2D" type="Line2D" parent="Optimize"]
+default_color = Color(0, 0.691436, 3.85046e-07, 1)
+
+[node name="PointController" type="Node2D" parent="." node_paths=PackedStringArray("generationArea")]
+script = ExtResource("1_7wmt2")
+generationArea = NodePath("../Generation Area")
+min_distance = 100.0
+pointObject = ExtResource("2_aiqdu")
+
+[node name="Timer" type="Timer" parent="PointController"]
+one_shot = true
+
+[node name="PointTimer" type="Timer" parent="PointController"]
+wait_time = 0.05
+one_shot = true
+
+[node name="Points" type="Node2D" parent="PointController"]
+
+[connection signal="value_changed" from="GUI/Panel2/NumberOfPoints/Point" to="GUI" method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="GUI/Panel2/MinDistance/MinDistance" to="GUI" method="_on_min_distance_value_changed"]
+[connection signal="pressed" from="GUI/Panel2/NearestNeighbor" to="GUI" method="_on_nearest_neighbor_pressed"]
+[connection signal="pressed" from="GUI/Panel2/Calculate" to="GUI" method="_on_calculate_pressed"]
+[connection signal="pressed" from="GUI/Panel2/Optimize" to="GUI" method="_on_optimize_pressed"]
+[connection signal="timeout" from="PointController/Timer" to="PointController" method="_on_timer_timeout"]
